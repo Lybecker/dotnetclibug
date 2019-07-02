@@ -5,7 +5,14 @@ COPY ["mywebapp.csproj", "./"]
 RUN dotnet restore "./mywebapp.csproj" 
 COPY . . 
 WORKDIR "/src/." 
-RUN dotnet build "mywebapp.csproj" -c Release -o /app 
+
+# To reproduce the bug, uncomment the dotnet build... line #15
+# It will result in an error at runtime
+#  realpath(): Permission denied
+#  realpath(): Permission denied
+#  realpath(): Permission denied
+
+# RUN dotnet build "mywebapp.csproj" -c Release -o /app 
 RUN dotnet publish "mywebapp.csproj" -c Release -o /app   
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS base 
